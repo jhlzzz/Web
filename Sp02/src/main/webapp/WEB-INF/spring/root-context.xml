@@ -27,7 +27,7 @@
 			 value="classpath:/mybatis-config.xml"/>
 	</bean>
 	
-	<mybatis-spring:scan base-package="soo.md.mapper"/>
-	<context:component-scan base-package="soo.md.mapper"/>
+	<mybatis-spring:scan base-package="soo.md.mapper"/> <!-- resource 쪽 -->
+	<context:component-scan base-package="soo.md.mapper"/><!-- java 쪽 총 결론은 1.xml을 읽어서 2.자바를 연결시킨다-->
 	<context:component-scan base-package="soo.md.service"/>
 </beans>

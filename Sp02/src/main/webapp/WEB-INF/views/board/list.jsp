@@ -38,18 +38,18 @@
 	<th color='gray'>subject</th>
 	<th color='gray'>date</th>
 </TR>
-<c:if test="${empty list}">
+<c:if test="${empty listResult}">
 	<tr align="center" noshade>
 	   <td colspan="5">데이터가 하나도 없음</td>
 	</tr>
 </c:if>
-<c:forEach items="${list}" var="board">
+<c:forEach items="${listResult.list}" var="board">
 	<TR align='center' noshade>
 		<TD>${board.seq}</TD>
 		<TD>${board.writer}</TD>
 		<TD>${board.email}</TD>
 	    <TD>
-	      <a href="content_list.do?seq=${board.seq}">
+	      <a href="content.do?seq=${board.seq}">
 		    ${board.subject}
 		  </a>
 		</TD>

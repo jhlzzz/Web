@@ -22,7 +22,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="soo.ct.controller" />
+	<context:component-scan base-package="soo.ct.controller" /> <!-- java 쪽 컨트롤러 -->
 	<context:component-scan base-package="soo.md.controller" />
 		
 </beans:beans>

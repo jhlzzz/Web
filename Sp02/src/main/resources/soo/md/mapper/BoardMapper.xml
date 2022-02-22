@@ -3,19 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="soo.md.mapper.BoardMapper">
+ 	<select id="selectPerPage" resultType="Board" parameterType="BoardVo">
+ 		<![CDATA[
+ 		select * from (select ROWNUM rnum, aa.* from (select * from BOARD order by SEQ desc) aa) where rnum>#{startRow} and rnum<=#{endRow}
+ 		]]>
+ 	</select>
+ 	<select id="selectBySeq" resultType="Board" parameterType="long">
+ 		select * from BOARD where SEQ=#{seq}
+ 	</select> 
+ 	<select id="selectCount" resultType="long">
+ 		select max(ROWNUM) from BOARD
+ 	</select>
  	<select id="list" resultType="Board">
  		select * from BOARD order by SEQ desc
  	</select>
  	<insert id="insert" parameterType="Board">
 		insert into BOARD values(BOARD_SEQ.nextval, #{writer}, #{email}, #{subject}, #{content}, SYSDATE)
  	</insert>
- 	<select id="content_list" resultType="Board">
- 		select * from BOARD where SEQ=#{seq}
- 	</select>
- 	<select id="update_list" resultType="Board">
- 		select * from BOARD where SEQ=#{seq}
- 	</select>
- 	<update id="update_update" parameterType="Board">
+ 	<update id="update" parameterType="Board">
  		update BOARD set email=#{email}, subject=#{subject}, content=#{content} where seq=#{seq}
  	</update>
  	<delete id="delete" parameterType="long">

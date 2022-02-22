@@ -3,12 +3,15 @@ package soo.md.mapper;
 import java.util.List;
 
 import soo.md.domain.Board;
+import soo.md.domain.BoardVo;
 
 public interface BoardMapper {
+	List<Board> selectPerPage(BoardVo boardVo);
+	Board selectBySeq(long seq);
+	long selectCount();
+	
 	List<Board> list();
 	void insert(Board board);
-	Board content_list(long seq);
-	Board update_list(long seq);
-	void update_update(Board board);
+	void update(Board board);
 	void delete(long seq);
 }
