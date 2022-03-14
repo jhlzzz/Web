@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="soo.md.mapper.FaqMapper">
+ 	<select id="selectPerPage" resultType="Faq" parameterType="FaqVo">
+ 		<![CDATA[
+ 		select * from (select ROWNUM rnum, aa.* from (select * from FAQ order by SEQ desc) aa) where rnum>#{startRow} and rnum<=#{endRow}
+ 		]]>
+ 	</select>
+ 	<select id="selectSearchPerPage" resultType="Faq" parameterType="FaqVo">
+ 		<![CDATA[
+ 		select * from (select ROWNUM rnum, aa.* from (select * from FAQ WHERE SUBJECT like '%'||#{subject}||'%' order by SEQ desc) aa) where rnum>#{startRow} and rnum<=#{endRow}  
+ 		]]>
+ 	</select>
+ 	<select id="selectBySeq" resultType="Faq" parameterType="long">
+ 		select * from FAQ where SEQ=#{seq}
+ 	</select> 
+ 	<select id="selectCount" resultType="long">
+ 		select max(ROWNUM) from FAQ
+ 	</select>
+ 	<select id="list" resultType="Faq">
+ 		select * from FAQ order by SEQ desc
+ 	</select>
+ 	<insert id="insert" parameterType="Faq">
+		insert into FAQ(SEQ, WRITER, SUBJECT, CONTENT, RDATE) values(FAQ_SEQ.nextval, '관리자 ', #{subject}, #{content}, SYSDATE)
+ 	</insert>
+ 	<update id="update" parameterType="Faq">
+ 		update FAQ set subject=#{subject}, content=#{content} where seq=#{seq}
+ 	</update>
+ 	<delete id="delete" parameterType="Faq">
+ 	 	delete from FAQ where SEQ=#{seq}
+ 	</delete>
+ 	<select id="selectBySubject" resultType="Faq" parameterType="String">
+ 		select * from FAQ where SUBJECT like '%'||#{subject}||'%' order by SUBJECT
+ 	</select>
+ </mapper>
