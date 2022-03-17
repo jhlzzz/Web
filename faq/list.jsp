@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> 자주묻는질문 </title>
+	<title> FAQ </title>
 	<meta charset="utf-8">
 	<style>
 		table, th, td {
@@ -24,10 +24,10 @@
 </head>
 <body>
 <center>
-<font color='gray' size='4' face='휴먼편지체'>
+<font color='gray' size='4' face='Trebuchet MS'>
 <hr width='600' size='2' color='gray' noshade>
-<h3> 자주묻는질문</h3>
-<font color='gray' size='4' face='휴먼편지체'>
+<h3> FAQ </h3>
+<font color='gray' size='4' face='Trebuchet MS'>
 <div id="btn_write">
 	<a href='write.do'>글쓰기</a><br/>
 </div>
@@ -35,9 +35,10 @@
 <hr width='600' size='2' color='gray' noshade>
 
 <TABLE border='2' width='600' align='center' noshade>
-<TR size='2' align='center' noshade bgcolor='AliceBlue'>
-	<th bgcolor='AliceBlue'>no</th>
+<TR size='2' align='center' noshade bgcolor='skyblue'>
+	<th bgcolor='skyblue'>number</th>
 	<th color='gray'>subject</th>
+	<th color='gray'>date</th>
 </TR>
 <c:if test="${empty listResult}">
 	<tr align="center" noshade>
@@ -52,12 +53,13 @@
 		    ${faq.subject}
 		  </a>
 		</TD>
+		<TD>${faq.rdate}</TD>
 	   </TR> 
 </c:forEach>      
      
 </TABLE>
 <hr width='600' size='2' color='gray' noshade>
-<font color='gray' size='3' face='휴먼편지체'>
+<font color='gray' size='3' face='Trebuchet MS'>
     (총페이지수 : ${listResult.totalPageCount})
     &nbsp;&nbsp;&nbsp;
     <c:forEach begin="1" end="${listResult.totalPageCount}" var="i">
@@ -110,14 +112,15 @@
 		
 				
 		//input 태그 id가 subject
-	    $( "#subject" ).autocomplete({
+	    //*******if 괄호 안이 서브젝트면 이거 실행, else 면 content 넣어서 실행 하려면 어떡해야하나??*******
+		$( "#blank" ).autocomplete({
 	        source : function( request, response ) {
 	             $.ajax({
 	                    type: 'post',
 	                    url: "autoData.json",
 	                    dataType: "json",
 	                    //request.term = $("#autocomplete").val()
-	                    data: { subject : $("#subject").val()},
+	                    data: { subject : $("#blank").val()},
 	                    //select * from BOARD where writer like %?%;
 	                    success: function(data) {
 	                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
@@ -152,13 +155,19 @@
     </script>
     <form action="search.do">
 	<center>
-		검색 <input id="subject" name="subject" size="10"></input><button type="submit">검색</button>
+
+<select id="search_key" name="search_key" fw-filter="" fw-label="" fw-msg="" >
+<option value="subject">제목</option>
+<option value="content">내용</option>
+</select>
+
+<input id="blank" name="blank" size="10" ></input><button type="submit">검색</button>
 	</center>
 	</form>
     
 </font>
 <hr width='600' size='2' color='gray' noshade>
-
+</font>
 </center>
 </body>
 </html>
