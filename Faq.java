@@ -16,4 +16,7 @@ public class Faq {//여기서 보드는 보드매퍼엑스엠엘의 파라미터
 	private String content;
 	private Date rdate;
 	private long rnum;
+	private long hits;
+	private long search_key;
+	private long blank;
 }

@@ -14,6 +14,9 @@ public interface FaqMapper {
 	void insert(Faq faq);
 	void update(Faq faq);
 	void delete(long seq);
+	void hits(long seq);
 	List<Faq> selectBySubject(String subject);
-	List<Faq> selectSearchPerPage(FaqVo faqVo);
+	List<Faq> selectSearchSubject(FaqVo faqVo);
+	List<Faq> selectSearchContent(FaqVo faqVo);
+	List<Faq> selectByContent(String subject);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.AllArgsConstructor;
 import soo.md.domain.Faq;
 import soo.md.domain.FaqListResult;
+import soo.md.domain.FaqSearchListResult;
 import soo.md.service.FaqService;
 
 @AllArgsConstructor
@@ -112,15 +113,24 @@ public class FaqController {
 		return "redirect:list.do";
 	}
 	@PostMapping("autoData.json")
-	public @ResponseBody List<Faq> getFaqList(String subject){
-		List<Faq> list = faqService.selectBySubject(subject);
+	public @ResponseBody List<Faq> getFaqList(String subject, String search_key){//subject는 검색창에 입력한 텍스트, search_key는 '제목'인지 '내용'인지.
+		//faq/autoData.json?subject=내&search_key=subject
+		subject = subject.toLowerCase();
+		List<Faq> list;
+		if("subject".equals(search_key)) {
+			list = faqService.selectBySubject(subject);
+		}else {
+			list = faqService.selectByContent(subject);
+		}
 		return list;
 	}
 	@GetMapping("/search.do")
 	public ModelAndView search(HttpServletRequest request, HttpSession session) {
 		String cpStr = request.getParameter("cp");
 		String psStr = request.getParameter("ps");
-		String subject = request.getParameter("subject");
+		String blank = request.getParameter("blank");
+		String search_key = request.getParameter("search_key");
+		//faq/search.do?search_key=subject&subject=a;
 		int cp = 1;
  		if(cpStr==null) {
 			Object cpObj = session.getAttribute("cp");
@@ -159,8 +169,9 @@ public class FaqController {
 			ps = psParam;
 		}
 		session.setAttribute("ps", ps);
-		
-		FaqListResult listResult = faqService.getFaqSearchListResult(cp, ps,subject);
+		System.out.println("cp====>"+cp);
+		System.out.println("ps====>"+ps);
+		FaqSearchListResult listResult = faqService.getFaqSearchListResult(cp, ps, blank, search_key);
 		ModelAndView mv = new ModelAndView("faq/searchList", "listResult", listResult);
 		
 		if(listResult.getList().size() == 0) {

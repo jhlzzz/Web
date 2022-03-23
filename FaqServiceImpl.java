@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import soo.md.domain.Faq;
 import soo.md.domain.FaqListResult;
+import soo.md.domain.FaqSearchListResult;
 import soo.md.domain.FaqVo;
 import soo.md.mapper.FaqMapper;
 
 
 @Service
 @AllArgsConstructor
+
 public class FaqServiceImpl implements FaqService{
 	@Autowired
 	private FaqMapper faqMapper;
@@ -29,6 +31,7 @@ public class FaqServiceImpl implements FaqService{
 	@Override
 	public Faq getFaq(long seq) {
 		Faq faq = faqMapper.selectBySeq(seq);
+		faqMapper.hits(seq);
 		return faq;
 	}
 	@Override
@@ -48,11 +51,19 @@ public class FaqServiceImpl implements FaqService{
 		return faqMapper.selectBySubject(subject);
 	}
 	@Override
-	public FaqListResult getFaqSearchListResult(int cp, int ps, String subject) {
+	public List<Faq> selectByContent(String subject) {
+		return faqMapper.selectByContent(subject);
+	}
+	@Override
+	public FaqSearchListResult getFaqSearchListResult(int cp, int ps, String blank, String search_key) {
 		long totalCount = faqMapper.selectCount();
-		FaqVo faqVo = new FaqVo(cp, ps,subject);
-		List<Faq> list = faqMapper.selectSearchPerPage(faqVo);
-		
-		return new FaqListResult(cp, totalCount, ps, list);		
+		FaqVo faqVo = new FaqVo(cp, ps,blank);
+		List<Faq> list;
+		if("subject".equals(search_key)) {
+			list = faqMapper.selectSearchSubject(faqVo);
+		}else {
+			list = faqMapper.selectSearchContent(faqVo);
+		}
+		return new FaqSearchListResult(cp, totalCount, ps, list, blank, search_key);		
 	}
 }

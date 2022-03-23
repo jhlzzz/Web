@@ -1,4 +1,4 @@
-package soo.md.domain;
+package soo.md.domain;//Vo는 페이징 때문에 만든 파일이다.
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class FaqVo {
 	private int cp = 1; //페이지 번호
 	private int ps = 5; //페이지 사이즈
-	private String subject; 
+	private String blank; 
 	
 	public int getStartRow() {
 		return (cp-1)*ps; //
@@ -16,8 +16,8 @@ public class FaqVo {
 	public int getEndRow() {
 		return cp*ps; //
 	}
-	public String getSubject() {
-		return subject;
+	public String getBlank() {
+		return blank;
 	}
 	
 }
